@@ -7,44 +7,42 @@ class LinkedPair:
         self.value = value
         self.next = None
 
+
 class HashTable:
-    '''
+    """
     A hash table that with `capacity` buckets
     that accepts string keys
-    '''
+    """
+
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
 
-
     def _hash(self, key):
-        '''
+        """
         Hash an arbitrary key and return an integer.
 
         You may replace the Python hash with DJB2 as a stretch goal.
-        '''
+        """
         return hash(key)
 
-
     def _hash_djb2(self, key):
-        '''
+        """
         Hash an arbitrary key using DJB2 hash
 
         OPTIONAL STRETCH: Research and implement DJB2
-        '''
+        """
         pass
 
-
     def _hash_mod(self, key):
-        '''
+        """
         Take an arbitrary key and return a valid integer index
         within the storage capacity of the hash table.
-        '''
+        """
         return self._hash(key) % self.capacity
 
-
     def insert(self, key, value):
-        '''
+        """
         Store the value with the given key.
 
         # Part 1: Hash collisions should be handled with an error warning. (Think about and
@@ -53,42 +51,48 @@ class HashTable:
         # Part 2: Change this so that hash collisions are handled with Linked List Chaining.
 
         Fill this in.
-        '''
-        pass
+        """
+        key_index = self._hash_mod(key)
+        # Check if there is a hash collision ? How?
 
-
+        self.storage[key_index] = value
 
     def remove(self, key):
-        '''
+        """
         Remove the value stored with the given key.
 
         Print a warning if the key is not found.
 
         Fill this in.
-        '''
-        pass
-
+        """
+        key_index = self._hash_mod(key)
+        if self.storage[key_index]:
+            self.storage[key_index] = None
+        else:
+            print("Warning, key not found")
 
     def retrieve(self, key):
-        '''
+        """
         Retrieve the value stored with the given key.
 
         Returns None if the key is not found.
 
         Fill this in.
-        '''
-        pass
-
+        """
+        key_index = self._hash_mod(key)
+        if self.storage[key_index]:
+            return self.storage[key_index]
+        else:
+            return None
 
     def resize(self):
-        '''
+        """
         Doubles the capacity of the hash table and
         rehash all key/value pairs.
 
         Fill this in.
-        '''
+        """
         pass
-
 
 
 if __name__ == "__main__":
