@@ -7,6 +7,9 @@ class LinkedPair:
         self.value = value
         self.next = None
 
+    def __repr__(self):
+        return f"<{self.key}, {self.value}"
+
 
 class HashTable:
     """
@@ -54,8 +57,14 @@ class HashTable:
         """
         key_index = self._hash_mod(key)
         # Check if there is a hash collision ? How?
-
-        self.storage[key_index] = value
+        pair = self.storage[key_index]
+        if pair is not None:
+            if pair.key != key:
+                print("Warning, overwriting value")
+                pair.key = key
+            pair.value = value
+        else:
+            self.storage[key_index] = LinkedPair(key, value)
 
     def remove(self, key):
         """
@@ -66,10 +75,10 @@ class HashTable:
         Fill this in.
         """
         key_index = self._hash_mod(key)
-        if self.storage[key_index]:
+        if self.storage[key_index] is not None and self.storage[key_index].key == key:
             self.storage[key_index] = None
         else:
-            print("Warning, key not found")
+            print("Warning key does not exist")
 
     def retrieve(self, key):
         """
@@ -80,7 +89,7 @@ class HashTable:
         Fill this in.
         """
         key_index = self._hash_mod(key)
-        if self.storage[key_index]:
+        if self.storage[key_index] is not None and self.storage[key_index].key == key:
             return self.storage[key_index]
         else:
             return None
@@ -99,15 +108,15 @@ if __name__ == "__main__":
     ht = HashTable(2)
 
     ht.insert("line_1", "Tiny hash table")
-    ht.insert("line_2", "Filled beyond capacity")
-    ht.insert("line_3", "Linked list saves the day!")
+    # ht.insert("line_2", "Filled beyond capacity")
+    # ht.insert("line_3", "Linked list saves the day!")
 
     print("")
 
     # Test storing beyond capacity
     print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+    # print(ht.retrieve("line_2"))
+    # print(ht.retrieve("line_3"))
 
     # Test resizing
     old_capacity = len(ht.storage)
@@ -118,7 +127,7 @@ if __name__ == "__main__":
 
     # Test if data intact after resizing
     print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+    # print(ht.retrieve("line_2"))
+    # print(ht.retrieve("line_3"))
 
     print("")
